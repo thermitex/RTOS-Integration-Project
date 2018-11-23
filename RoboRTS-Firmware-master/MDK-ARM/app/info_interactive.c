@@ -53,7 +53,8 @@ void get_chassis_info(void)
   /* get chassis wheel speed */
   for (uint8_t i = 0; i < 4; i++)
   {
-    chassis.wheel_spd_fdb[i] = moto_chassis[i].speed_rpm;
+    //chassis.wheel_spd_fdb[i] = moto_chassis[i].speed_rpm;
+    chassis.wheel_spd_fdb[i] = moto_chassis[i].filter_rate;
   }
 
   /* get remote and keyboard chassis control information */

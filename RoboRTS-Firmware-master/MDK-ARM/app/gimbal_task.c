@@ -249,10 +249,10 @@ void gimbal_task(void const *argu)
   pit_angle_fdb_js = gim.pid.pit_angle_fdb*1000;
   pit_speed_ref_js = pid_pit.out*1000;
   pit_speed_fdb_js = gim.sensor.pit_palstance*1000;
-
+/*
   osSignalSet(can_msg_send_task_t, GIMBAL_MOTOR_MSG_SEND);
   osSignalSet(shoot_task_t, SHOT_TASK_EXE_SIGNAL);
-
+*/
   gimbal_stack_surplus = uxTaskGetStackHighWaterMark(NULL);
 
 }

@@ -23,6 +23,7 @@
  *  @copyright 2017 DJI RoboMaster. All rights reserved.
  *
  */
+#define CHASSIS_EC60 0
 
 #include "bsp_can.h"
 #include "detect_task.h"
