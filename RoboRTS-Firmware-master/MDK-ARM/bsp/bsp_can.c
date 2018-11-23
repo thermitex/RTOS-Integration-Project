@@ -37,11 +37,129 @@ moto_measure_t moto_yaw;
 moto_measure_t moto_trigger;
 moto_measure_t moto_chassis[4];
 
+//uint8_t canRxMsg[8];
 //float yaw_zgyro_angle;
 
+/*
+CAN_TxHeaderTypeDef can1TxHeader0;
+CAN_TxHeaderTypeDef test;
+CAN_TxHeaderTypeDef can1TxHeader1;
+CAN_RxHeaderTypeDef can1RxHeader;
+
+CAN_FilterTypeDef can1Filter;
+
+uint8_t canTxMsg0[8] = {0};
+uint8_t canTxMsg1[8] = {0};
+uint32_t can_count=0;
+
+Can** all_rx_devices;
+unsigned int total_rx_device = 0;
+
+void Device_Initialize(Can* device,const uint32_t StdId, const uint32_t IDE, const uint32_t RTR, const uint32_t DLC, const uint32_t rx_StdId, const int rx_buffer_size)
+{
+	device->StdId = StdId;
+	device->IDE = IDE;
+	device->RTR = RTR;
+	device->DLC = DLC;
+	device->rx_StdId = rx_StdId;
+	device->canTxHeader.IDE = device->IDE;
+	device->canTxHeader.StdId = device->StdId;
+	device->canTxHeader.DLC = device->DLC;
+	//device.canTxHeader.RTR = device.RTR;
+	device->rx_buffer_size = rx_buffer_size;
+	
+	Device_ResizeRxBuffer(device, device->rx_buffer_size);
+	Device_Activate_Rx(device);
+}
+
+void Device_ResizeRxBuffer(Can* device, int rx_buffer_size)
+{
+	uint8_t* new_rx_buffer = realloc(device->data, rx_buffer_size);
+	if (new_rx_buffer == NULL)
+	{
+		// error check
+	}
+	else
+	{
+		device->data = new_rx_buffer;
+	}
+}
+
+void CanReceiveMsgProcess(CAN_RxHeaderTypeDef *rxHeader,uint8_t* msg, CAN_HandleTypeDef* _hcan)
+{      
+	can_count++;
+		switch(rxHeader->StdId)
+		{
+      case CAN_3510_M1_ID:
+      case CAN_3510_M2_ID:
+      case CAN_3510_M3_ID:
+      case CAN_3510_M4_ID:
+      {
+        static uint8_t i;
+        i = rxHeader->StdId - CAN_3510_M1_ID;
+        (can_count <= 50) ? get_moto_offset(&moto_chassis[i], _hcan) : encoder_data_handler(&moto_chassis[i], _hcan);
+      }
+      case CAN_YAW_MOTOR_ID:
+      {
+      }break;
+      
+      case CAN_PIT_MOTOR_ID:
+      {	
+      }break;		
+      case CAN_TRIGGER_MOTOR_ID:
+      {
+      }break;
+				
+		}
+}
+
+void Can_Transmit(Can* device,CAN_HandleTypeDef* hcan,uint8_t* canMsg)
+{
+	CAN_TxHeaderTypeDef msgHeader = device->canTxHeader;
+	HAL_CAN_AddTxMessage(hcan,&msgHeader,canMsg,(void*)CAN_TX_MAILBOX0);
+}
+
+void Device_Activate_Rx(Can* device)
+{
+	Can** new_rx_device = realloc(all_rx_devices, ++total_rx_device);
+	if (new_rx_device == NULL)
+	{
+		// error check
+	}
+	else
+	{
+		all_rx_devices = new_rx_device;
+		all_rx_devices[total_rx_device-1] = device;
+	}
+}
+
+void Device_Receive(CAN_RxHeaderTypeDef* canRxHeader,uint8_t* canRxMsg)
+{
+	for (int i = 0; i < total_rx_device; ++i)
+	{
+		if (canRxHeader->StdId == all_rx_devices[i]->rx_StdId)
+		{
+			for (int j = 0; j < all_rx_devices[i]->rx_buffer_size; ++j)
+			{
+				all_rx_devices[i]->data[j] = canRxMsg[j];
+			}
+		}
+	}
+}
+
+void Can_Receive(CAN_HandleTypeDef* hcan, uint8_t* canRxMsg)	// place this in can1/2_rx_isr
+{
+	can_count++;
+	CAN_RxHeaderTypeDef canRxHeader;
+	HAL_CAN_GetRxMessage(hcan,CAN_RX_FIFO0,&canRxHeader,canRxMsg);
+	Device_Receive(&canRxHeader, canRxMsg);
+}
+*/
 
 void HAL_CAN_RxCpltCallback(CAN_HandleTypeDef *_hcan)
 {
+  //HAL_CAN_GetRxMessage(&_hcan,CAN_RX_FIFO0,&can1RxHeader,canRxMsg);
+  //CanReceiveMsgProcess(&can1RxHeader,canRxMsg,&_hcan);
   switch (_hcan->pRxMsg->StdId)
   {
     case CAN_3510_M1_ID:
@@ -56,7 +174,7 @@ void HAL_CAN_RxCpltCallback(CAN_HandleTypeDef *_hcan)
       err_detector_hook(CHASSIS_M1_OFFLINE + i);
     }
     break;
-    case CAN_YAW_MOTOR_ID:
+    /*case CAN_YAW_MOTOR_ID:
     {
       encoder_data_handler(&moto_yaw, _hcan);
       err_detector_hook(GIMBAL_YAW_OFFLINE);
@@ -113,7 +231,7 @@ void HAL_CAN_RxCpltCallback(CAN_HandleTypeDef *_hcan)
     default:
     {
     }
-    break;
+    break;*/
   }
   
   __HAL_CAN_ENABLE_IT(&hcan1, CAN_IT_FMP0);

@@ -71,6 +71,45 @@ typedef struct
   int32_t  filter_rate;
 } moto_measure_t;
 
+/*
+typedef struct Can
+{
+	CAN_TxHeaderTypeDef canTxHeader;
+	
+	uint32_t StdId;
+	uint32_t IDE;
+	uint32_t RTR;
+	uint32_t DLC;
+	uint32_t rx_StdId;
+	uint8_t* data;
+	int rx_buffer_size;
+} Can;
+
+void Device_Initialize(Can* device,const uint32_t StdId, const uint32_t IDE, const uint32_t RTR, const uint32_t DLC, const uint32_t rx_StdId, const int rx_buffer_size);
+void Can_Transmit(Can* device,CAN_HandleTypeDef* hcan,uint8_t* canMsg);
+void Can_Receive(CAN_HandleTypeDef* hcan, uint8_t* canRxMsg);
+void Device_Activate_Rx(Can* device);
+//void test_smart_can(Can* device, CAN_HandleTypeDef* hcan,int16_t cm1_iq,int16_t cm2_iq,int16_t cm3_iq,int16_t cm4_iq);
+void Device_ResizeRxBuffer(Can* device, int rx_buffer_size);
+
+/*#define SPEED_OUTPUT_ATTENUATION (1.0f)
+#define RATE_BUF_SIZE 6
+typedef struct{
+	int32_t raw_value; 
+	int32_t last_raw_value;	
+	int32_t ecd_value; 
+	int32_t diff;	
+	int32_t temp_count; 
+	uint8_t buf_count;
+	int32_t ecd_bias;				
+	int32_t ecd_raw_rate;						
+	float rate_buf[RATE_BUF_SIZE];
+	int32_t round_cnt;	
+	int32_t filter_rate;											
+	float ecd_angle;				
+	float last_ecd_angle;
+	float ecd_speed;
+}Encoder;*/
 
 extern moto_measure_t moto_chassis[];
 extern moto_measure_t moto_yaw, moto_pit, moto_trigger;

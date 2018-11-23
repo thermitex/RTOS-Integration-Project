@@ -61,11 +61,13 @@ void chassis_task(void const *argu)
 {
   chassis_time_ms = HAL_GetTick() - chassis_time_last;
   chassis_time_last = HAL_GetTick();
+
+
   
 //    get_chassis_info();
 //    get_chassis_mode();
 
-  switch (chassis.ctrl_mode)
+  /*switch (chassis.ctrl_mode)
   {
     case DODGE_MODE:
     {
@@ -141,9 +143,14 @@ void chassis_task(void const *argu)
     {
       chassis_stop_handler();
     }break;
-  }
+  }*/
 
-  mecanum_calc(chassis.vx, chassis.vy, chassis.vw, chassis.wheel_spd_ref);
+ // mecanum_calc(chassis.vx, chassis.vy, chassis.vw, chassis.wheel_spd_ref);
+
+ chassis.wheel_spd_ref[0] = 0;
+ chassis.wheel_spd_ref[1] = 0;
+ chassis.wheel_spd_ref[2] = 0;
+ chassis.wheel_spd_ref[3] = 0;
 
   for (int i = 0; i < 4; i++)
   {
@@ -235,7 +242,7 @@ void follow_gimbal_handler(void)
 
 /**
   * @brief mecanum chassis velocity decomposition
-  * @param input : â†‘=+vx(mm/s)  â†=+vy(mm/s)  ccw=+vw(deg/s)
+  * @param input : â†?=+vx(mm/s)  â†?=+vy(mm/s)  ccw=+vw(deg/s)
   *        output: every wheel speed(rpm)
   * @note  1=FR 2=FL 3=BL 4=BR
   */
