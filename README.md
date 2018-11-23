@@ -18,7 +18,7 @@ chassis.wheel_spd_ref[3] = CM4_SPEED;
 chassis.wheel_spd_fdb[i] = moto_chassis[i].filter_rate;
 ```
 
-- I also disable the gimbal task transmition in order to focus on the chassis test. I disable it in `gimbal_task.c`, line 252-255. Remember to uncomment it before working on gimbal.
+- I also disable the gimbal task inter-thread communication in order to focus on the chassis test. I disable it in `gimbal_task.c`, line 252-255. Remember to uncomment it before working on gimbal.
 
 ```c
 /*
