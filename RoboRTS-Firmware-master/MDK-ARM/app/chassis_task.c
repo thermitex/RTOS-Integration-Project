@@ -147,7 +147,7 @@ void chassis_task(void const *argu)
 
  // mecanum_calc(chassis.vx, chassis.vy, chassis.vw, chassis.wheel_spd_ref);
 
- chassis.wheel_spd_ref[0] = 0;
+ chassis.wheel_spd_ref[0] = 600;
  chassis.wheel_spd_ref[1] = 0;
  chassis.wheel_spd_ref[2] = 0;
  chassis.wheel_spd_ref[3] = 0;
